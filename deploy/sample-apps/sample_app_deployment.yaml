@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: infra-swarm-sample-app-depl
+  labels:
+    env: infra-swarm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-app
+  template:
+    metadata:
+      name: sample-infra-swarm-app
+      labels:
+        app: go-app
+    spec:
+      containers:
+        - name: infra-swarm-sample-go-app
+          image: infra-swarm-sample-app:dev
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "25m"
+            limits:
+              memory: "128Mi"
+              cpu: "250m"
+      restartPolicy: Always
+      
